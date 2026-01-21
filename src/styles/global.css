@@ -1,0 +1,31 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #f7f7f7;
+  color: #111;
+}
+:root {
+  --reader-font-size: 1rem;
+  --reader-word-spacing: 0.1em;
+
+}
+
+.text-inner p {
+  font-size: var(--reader-font-size);
+   word-spacing: var(--reader-word-spacing);
+
+}
+.font-controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;   /* ⬅️ aligns the buttons to the right */
+  width: 100%;                 /* ⬅️ ensures it has space to push into */
+  gap: 1rem;
+  padding-right: 2rem;
+}

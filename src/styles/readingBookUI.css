@@ -1,0 +1,145 @@
+/* PAGE CONTAINER */
+.page {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;padding: 1rem;
+  background-color: #333;
+}
+
+/* BOOK CONTENT TAKES REMAINING SPACE */
+.book-content {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  min-height: 0;          /* ✅ add (THIS is the big one) */
+  overflow: hidden; 
+  
+}
+
+/* BOOK FRAME */
+.book-frame {
+      flex: 1 1 auto;         /* ✅ add */
+  min-height: 0;          /* ✅ add */
+  max-height: 100%; 
+  height: 100%;
+  width: 100%;
+
+  display: flex;
+
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* INNER PAGE LAYOUT */
+.page-inner {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  
+  min-height: 0;      /* ✅ allows shrink */
+  
+}
+
+/* IMAGE TAKES REMAINING SPACE */
+.image-box {
+  flex: 1 1 auto;
+  overflow: hidden;
+ 
+    min-height: 0;      /* ✅ REQUIRED */
+
+}
+
+/* IMAGE STRETCHES TO FILL */
+.image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit:fill;
+  display: block;
+}
+
+/* TEXT GROWS NATURALLY */
+.text-box {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;   /* centres the inner box when it doesn't need full width */
+  align-items: center;        /* vertical centring if needed */
+flex-direction: column;
+}
+
+.text-inner {
+   width: auto;              /* allow wrapping */
+  max-width: 100%;          /* never exceed container */
+  text-align: left;        /* keep right alignment */
+  padding: 1rem;
+  overflow-wrap: normal;    /* no mid-word breaks */
+  word-break: normal;       /* no mid-word breaks */
+
+}
+
+
+/* CONTROLS CONTAINER */
+.controls {
+  width: 100%;
+  flex-shrink: 0;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+
+  align-items: center;
+
+  padding: 1rem 0;
+}
+
+/* BUTTONS */
+.controls button {
+  width: 100%;
+  max-width: 300px;
+
+  font-size: 1.2rem;
+  padding: 0.9rem 1.8rem;
+
+  border-radius: 999px;
+  border: none;
+
+  background: #005fcc;
+  color: white;
+
+  cursor: pointer;
+}
+
+/* LEFT BUTTON (Previous) — hug right edge */
+.controls button:first-child {
+  justify-self: end;
+}
+
+/* RIGHT BUTTON (Next) — hug left edge */
+.controls button:last-child {
+  justify-self: start;
+}
+
+/* SINGLE ACTION (e.g. “Let’s read”) */
+.controls.single-action {
+  grid-template-columns: 1fr;
+}
+
+.controls.single-action button {
+  justify-self: center;
+}
+
+/* DISABLED */
+.controls button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* FOCUS (WCAG) */
+.controls button:focus-visible {
+  outline: 4px solid #ffbf47;
+  outline-offset: 2px;
+}

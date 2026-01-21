@@ -1,0 +1,42 @@
+/* .cover-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.book-cover {
+  all: unset;
+  cursor: pointer;
+  max-width: 420px;
+  width: 90vw;
+  aspect-ratio: 3 / 4;
+  border-radius: 12px;
+  box-shadow:
+    0 12px 30px rgba(0,0,0,0.25),
+    inset 6px 0 0 rgba(255,255,255,0.3);
+}
+
+.book-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+.cta-box {
+  margin-top: 1.5rem;
+}
+
+.read-button {
+  font-size: 1.4rem;
+  padding: 1rem 2rem;
+  border-radius: 999px;
+  background: #005fcc;
+  color: white;
+  border: none;
+}
+
+.read-button:focus-visible {
+  outline: 4px solid #ffbf47;
+} */
