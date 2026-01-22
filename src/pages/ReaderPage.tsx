@@ -213,6 +213,19 @@ export function ReaderPage() {
     }
   }, [pageNumber])
 
+    useEffect(() => {
+  document.documentElement.style.setProperty(
+    '--reader-font-size',
+    `${fontSize}rem`
+  )
+}, [fontSize])
+useEffect(() => {
+  document.documentElement.style.setProperty(
+    '--reader-word-spacing',
+    `${wordSpacing}em`
+  )
+}, [wordSpacing])
+
   /* -----------------------------------------
      Resolve CURRENT page image
   ----------------------------------------- */
