@@ -143,3 +143,32 @@ flex-direction: column;
   outline: 4px solid #ffbf47;
   outline-offset: 2px;
 }
+.page-loading {
+  position: fixed;
+  inset: 0;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.page-loading img {
+  width: 160px;
+  max-width: 60vw;
+  height: auto;
+}
+.text-box,
+.text-box p {
+  font-size: var(--reader-font-size);
+  word-spacing: var(--reader-word-spacing);
+  background: white;;
+}
+.book-content {
+  opacity: 1;
+  transition: opacity 0.2s ease-in;
+}
+
+/* .page-loading ~ .book-content {
+  opacity: 0;
+} */
