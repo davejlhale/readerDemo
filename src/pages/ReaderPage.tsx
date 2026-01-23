@@ -324,11 +324,17 @@ useEffect(() => {
   if (isEndPage) {
     return (
       <main className="page">
-        <img src={imageSrc} alt="The End" />
-        <div className="controls single-action">
-          <button onClick={() => navigate(`/book/${bookId}`)}>
-            Read Again
-          </button>
+         <div className="book-content">
+        <div className="book-frame">
+          <div className="page-inner">
+            <div className="image-box">
+              <img src={imageSrc} alt="The End" />
+            </div>
+            <div className="controls single-action">
+              <button onClick={() => navigate(`/book/${bookId}`)}>            Read Again          </button>
+            </div>
+          </div>
+        </div>
         </div>
       </main>
     )

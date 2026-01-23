@@ -34,10 +34,7 @@ export function BookCoverPage() {
         >
           <div className="page-inner">
             <div className="image-box">
-              {/* <img
-                src={book.coverImage}
-                alt={`Cover of ${book.title}`}
-              />      */}
+            
               
                <picture>
   <source
