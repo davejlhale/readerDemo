@@ -35,7 +35,6 @@ export function BooksInSeriesPage() {
               alt={`Cover of ${book.title}`}
               style={{ width: '100%', borderRadius: '8px' }}
             />
-            <p>{book.title}</p>
           </button>
         ))}
       </div>

@@ -350,6 +350,7 @@ useEffect(() => {
             </div>
 
             <div className="text-box">
+              <div className="font-controls">
               <FontSizeControls
                 fontSize={fontSize}
                 setFontSize={setFontSize}
@@ -357,7 +358,7 @@ useEffect(() => {
               <WordSpacingControls
                 wordSpacing={wordSpacing}
                 setWordSpacing={setWordSpacing}
-              />
+              /></div>
               <div className="text-inner">
                 {pageData.lines.map((line, i) => (
                   <p key={i}>{line}</p>
@@ -375,17 +376,13 @@ useEffect(() => {
               ? navigate(`/book/${bookId}`)
               : navigate(`/book/${bookId}/read/${pageNumber - 1}`)
           }
-        >
-          ◀ Previous
-        </button>
+        >◀</button>
 
         <button
           onClick={() =>
             navigate(`/book/${bookId}/read/${pageNumber + 1}`)
           }
-        >
-          Next ▶
-        </button>
+        >▶</button>
       </div>
     </main>
   )
