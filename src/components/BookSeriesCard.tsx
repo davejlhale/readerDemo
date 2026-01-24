@@ -1,4 +1,4 @@
-import type { BookSeries } from '../data/bookSeries/bookSeriesDatac'
+import type { BookSeries } from '../data/types'
 
 type Props = {
   series: BookSeries

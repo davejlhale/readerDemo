@@ -1,15 +1,15 @@
 import type { Book } from './types'
-import { GoToTheZoo } from './books/HugoAndPip/GoToTheZoo'
+// import { GoToTheZoo } from './books/HugoAndPip/GoToTheZoo'
 
-const books: Book[] = [
-  GoToTheZoo,
-]
+// const books: Book[] = [
+//   GoToTheZoo,
+// ]
 
 
 
-export function getBook(bookId: string): Book | null {
-  return books.find(book => book.id === bookId) ?? null
-}
+// export function getBook(bookId: string): Book | null {
+//   return books.find(book => book.id === bookId) ?? null
+// }
 
 
 //all above to go eventually
