@@ -1,18 +1,5 @@
 import type { Book } from './types'
-// import { GoToTheZoo } from './books/HugoAndPip/GoToTheZoo'
 
-// const books: Book[] = [
-//   GoToTheZoo,
-// ]
-
-
-
-// export function getBook(bookId: string): Book | null {
-//   return books.find(book => book.id === bookId) ?? null
-// }
-
-
-//all above to go eventually
 import type { BookMeta} from './types';
 export async function getBooksForSeries(seriesId: string): Promise<BookMeta[]> {
   // Build the path based on the seriesId

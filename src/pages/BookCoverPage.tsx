@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { getBook } from '../data/getBook';
+import { getBookContent } from '../data/getBookContents';
 import '../styles/readingBookUI.css';
 import { Book } from '../data/types';
 
@@ -14,7 +14,7 @@ console.log('BookCoverPage for bookId:', bookId,book)
 // effect
 useEffect(() => {
   if (!bookId) return
-  getBook(bookId).then(setBook)
+  getBookContent(bookId).then(setBook)
 }, [bookId])
 
 
