@@ -1,5 +1,5 @@
-import { getBook } from './books'
-import type { BookPage } from './books/types'
+import { getBook } from './getBooksForSeries'
+import type { BookPage } from './types'
 
 export function getBookPage(
   bookId: string,

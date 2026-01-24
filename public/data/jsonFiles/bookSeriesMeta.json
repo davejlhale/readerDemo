@@ -1,0 +1,19 @@
+[   {
+    "id": "Hugo_And_Pip",
+    "name": "Hugo & Pip",
+    "stageRange": "RDS 2-6",
+    "image": "/images/bookSeries/HugoAndPip/Generic Series Images/Book Series Image.png",
+    "jsonPath": "/data/books/jsonFiles/Hugo_Pip_Books.json"
+  },{
+    "id": "Big_Dog_Little_Dog",
+    "name": "Big Dog, Little Dog",
+    "stageRange": "RDS 2-6",
+    "image": "/images/bookSeries/Big Dog, Little Dog/Generic Series Images/Book Series Image.png",
+    "jsonPath": "/data/books/jsonFiles/Big_Dog_Little_Dog_Books.json"
+  }, {
+    "id": "Backroad_Bikers",
+    "name": "Backroad Bikers",
+    "stageRange": "RDS 2-7",
+    "image": "/images/bookSeries/Backroad Bikers/Generic Series Images/Book Series Image.png",
+    "jsonPath": "/data/books/jsonFiles/Backroad_Bikers_Books.json"
+  } ]

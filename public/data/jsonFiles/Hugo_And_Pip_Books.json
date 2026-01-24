@@ -1,0 +1,18 @@
+[
+  {
+    "id": "hugo-and-pip-go-to-the-zoo",
+    "seriesId": "Hugo and Pip",
+    "title": "Hugo and Pip Go to the Zoo",
+    "coverImage": "/images/bookSeries/HugoAndPip/GoToTheZoo/cover.png",
+    "coverImageLandscape": "/images/bookSeries/HugoAndPip/GoToTheZoo/coverImageLandscape.png",
+    "contentIndex": "/data/jsonFiles/Hugo_Pip_Books_Content/hugo-and-pip-go-to-the-zoo.json"
+  },
+  {
+    "id": "Hugo-&-Pip-Go-to-the-Farm",
+    "seriesId": "Hugo and Pip",
+    "title": "Hugo and Pip Go to the Farm",
+    "coverImage": "/images/bookSeries/HugoAndPip/GoToTheFarm/cover.png",
+  "coverImageLandscape": "/images/bookSeries/HugoAndPip/GoToTheFarm/coverImageLandscape.png",
+    "contentIndex": "/data/jsonFiles/Hugo_Pip_Books_Content/Hugo-and-Pip-Go-to-the-Farm.json"
+  }
+]

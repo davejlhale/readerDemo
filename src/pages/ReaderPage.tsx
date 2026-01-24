@@ -1,13 +1,14 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 
-import { getBook } from '../data/books'
-import { getBookPage } from '../data/getBookPage'
+ import { getBookPage } from '../data/getBookPage'
 
 import { FontSizeControls } from '../components/FontSizeControls'
 import { WordSpacingControls } from '../components/WordSpacingControls'
 
 import { useSession } from '../session/SessionContext'
+import { getBookContent } from '../data/getBookContents'
+import { Book } from '../data/types'
 
 /* ---------------------------------------------
    Types
@@ -29,19 +30,40 @@ function yieldToBrowser() {
 }
 
 async function fetchAsBlobUrl(url: string): Promise<string | null> {
-  if (!navigator.onLine) return null
+   console.log("FETCH START:", url)
+   if (!navigator.onLine) {     console.log("OFFLINE — aborting fetch")
+return null}
 
-  const response = await fetch(url, { cache: 'no-cache' })
-  const blob = await response.blob()
-  const objectUrl = URL.createObjectURL(blob)
+  try {
+    const response = await fetch(url, { cache: 'no-cache' })
 
-  const img = new Image()
-  img.src = objectUrl
-  await img.decode()
+    console.log("FETCH RESPONSE:", response.status, response.ok)
 
-  return objectUrl
+// console.log("CONTENT TYPE:", response.headers.get("content-type"))
+    if (!response.ok) {
+      console.log("FETCH FAILED:", response.status)
+      return null
+    }
+
+    const blob = await response.blob()
+    console.log("BLOB SIZE:", blob.size)
+
+    const objectUrl = URL.createObjectURL(blob)
+    console.log("OBJECT URL CREATED:", objectUrl)
+
+    const img = new Image()
+    img.src = objectUrl
+
+    await img.decode()
+    console.log("IMAGE DECODE SUCCESS")
+
+    return objectUrl
+
+  } catch (err) {
+    console.error("FETCH ERROR:", err)
+    return null
+  }
 }
-
 /* ---------------------------------------------
    Component
 --------------------------------------------- */
@@ -52,6 +74,16 @@ export function ReaderPage() {
   const params = useParams()
   const navigate = useNavigate()
   const session = useSession()
+
+ /* -----------------------------------------
+     State
+  ----------------------------------------- */
+  const [fontSize, setFontSize] = useState(1.4)
+  const [wordSpacing, setWordSpacing] = useState(0.1)
+
+  const [imageSource, setImageSource] =
+    useState<ImageSource | null>(null)
+  const [retryTick, setRetryTick] = useState(0)
 
   if (!params.bookId || !params.page) {
     return <p>Invalid page</p>
@@ -64,25 +96,24 @@ export function ReaderPage() {
     return <p>Invalid page</p>
   }
 
-  /* -----------------------------------------
-     State
+ 
+
+/* -----------------------------------------
+     Refs / constants
   ----------------------------------------- */
-  const [fontSize, setFontSize] = useState(1.4)
-  const [wordSpacing, setWordSpacing] = useState(0.1)
-
-  const [imageSource, setImageSource] =
-    useState<ImageSource | null>(null)
-
-  const [retryTick, setRetryTick] = useState(0)
+  const BUFFER_PAGES = 2
+  const loadingRef = useRef<Set<number>>(new Set())
 
   /* -----------------------------------------
-     Book data
+     Book data (async)
   ----------------------------------------- */
-  const book = getBook(bookId)
-  if (!book) return <p>Book not found</p>
+ const [book, setBook] = useState<Book | null>(null);
 
-  const totalPages = book.pages.length
-  const isEndPage = pageNumber > totalPages
+useEffect(() => {
+  getBookContent(bookId).then(setBook);
+}, [bookId]);
+
+
 
   /* -----------------------------------------
      Session cache (SOURCE OF TRUTH)
@@ -91,11 +122,7 @@ export function ReaderPage() {
     session.state.books[bookId] ??
     (session.state.books[bookId] = {})
 
-  /* -----------------------------------------
-     Refs / constants
-  ----------------------------------------- */
-  const BUFFER_PAGES = 2
-  const loadingRef = useRef<Set<number>>(new Set())
+  
 
   /* -----------------------------------------
      DEV: PURGE BLOBS ON ENTRY (optional)
@@ -121,7 +148,15 @@ export function ReaderPage() {
       if (Object.keys(bookCache).length > 0) return
 
       for (let i = 1; i <= 2; i++) {
-        const pageData = getBookPage(bookId, i)
+       console.log("Loading page:", pageNumber)
+
+const pageData = getBookPage(bookId, pageNumber)
+
+console.log("Page data:", pageData)
+if (pageData) {
+  console.log("Image base path:", pageData.imageBasePath)
+  console.log("Chosen image:", chooseImage(pageData.imageBasePath))
+}
         if (!pageData) continue
 
         loadingRef.current.add(i)
@@ -150,6 +185,9 @@ export function ReaderPage() {
     }
   }, [bookId])
 
+
+  const totalPages = book?.pages.length ?? 0;
+  const isEndPage = pageNumber > totalPages
   /* -----------------------------------------
      Background prefetch (future pages only)
   ----------------------------------------- */
@@ -230,6 +268,9 @@ useEffect(() => {
      Resolve CURRENT page image
   ----------------------------------------- */
   const imageSrc = bookCache[pageNumber]
+console.log("imageSrc:", imageSrc)
+console.log("navigator.onLine:", navigator.onLine)
+
   const isLoadingThisPage = loadingRef.current.has(pageNumber)
 
   /* -----------------------------------------
@@ -268,35 +309,55 @@ useEffect(() => {
       imageSource
     )
   }, [pageNumber, imageSource])
+  /* -----------------------------------------
+     Load CURRENT page when missing
+  ----------------------------------------- */
+  useEffect(() => {
+    if (!imageSrc && navigator.onLine) {
+      let cancelled = false
+console.log("LOAD EFFECT CHECK", {
+  imageSrc,
+  online: navigator.onLine,
+  bookId,
+  pageNumber
+})
+
+      async function loadCurrentPage() {
+const pageData = book?.pages[pageNumber - 1]  
+      if (!pageData) return
+console.log("LOAD EFFECT CHECK inside", {
+  imageSrc,
+  online: navigator.onLine,
+  bookId,
+  pageNumber
+})
+
+        const blobUrl = await fetchAsBlobUrl(
+          chooseImage(pageData.imageBasePath)
+        )
+
+        if (!blobUrl || cancelled) return
+
+        bookCache[pageNumber] = blobUrl
+        session.notify()
+      }
+
+      loadCurrentPage()
+
+      return () => {
+        cancelled = true
+      }
+    }
+  }, [bookId, pageNumber, imageSrc])
+
+
+  if (!book) return <p>Loading book…</p>;
 
   /* -----------------------------------------
      Render: missing current page
   ----------------------------------------- */
-  if (!imageSrc) {
+    if (!imageSrc) {
     if (navigator.onLine) {
-      if (!isLoadingThisPage) {
-        loadingRef.current.add(pageNumber)
-
-        ;(async () => {
-          const pageData = getBookPage(bookId, pageNumber)
-          if (!pageData) {
-            loadingRef.current.delete(pageNumber)
-            return
-          }
-
-          const blobUrl = await fetchAsBlobUrl(
-            chooseImage(pageData.imageBasePath)
-          )
-
-          loadingRef.current.delete(pageNumber)
-
-          if (!blobUrl) return
-
-          bookCache[pageNumber] = blobUrl
-          session.notify()
-        })()
-      }
-
       return (
         <main className="page page-loading">
           <p>Loading page…</p>
@@ -317,6 +378,8 @@ useEffect(() => {
       </main>
     )
   }
+
+   
 
   /* -----------------------------------------
      END PAGE
@@ -343,7 +406,8 @@ useEffect(() => {
   /* -----------------------------------------
      NORMAL PAGE
   ----------------------------------------- */
-  const pageData = getBookPage(bookId, pageNumber)
+  const pageData = book?.pages[pageNumber - 1]
+
   if (!pageData) return <p>Page not found</p>
 
   return (

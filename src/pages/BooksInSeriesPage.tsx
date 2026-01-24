@@ -1,13 +1,25 @@
 import { useParams, useNavigate } from 'react-router-dom'
-import { getBooksForSeries } from '../data/books'
+import { getBooksForSeries } from '../data/getBooksForSeries'
+import { useEffect, useState } from 'react';
+import { BookMeta } from '../data/types';
 
 export function BooksInSeriesPage() {
   const { seriesId } = useParams()
   const navigate = useNavigate()
+  console.log('BooksInSeriesPage for seriesId:', seriesId)
 
+  const [books, setBooks] = useState<BookMeta[]>([]);
   if (!seriesId) return <p>Invalid series</p>
 
-  const books = getBooksForSeries(seriesId)
+    useEffect(() => {
+    if (!seriesId) return;
+
+    getBooksForSeries(seriesId).then(setBooks);
+  }, [seriesId]);
+
+  if (!seriesId) return <p>Invalid series</p>;
+  if (!books.length) return <p>Loading books…</p>;
+
 
   return (
     <main style={{ padding: '2rem' }}>
