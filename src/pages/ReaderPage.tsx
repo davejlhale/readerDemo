@@ -1,7 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
 
- import { getBookPage } from '../data/getBookPage'
 
 import { FontSizeControls } from '../components/FontSizeControls'
 import { WordSpacingControls } from '../components/WordSpacingControls'
@@ -150,7 +149,9 @@ useEffect(() => {
       for (let i = 1; i <= 2; i++) {
        console.log("Loading page:", pageNumber)
 
-const pageData = getBookPage(bookId, pageNumber)
+if (!book) continue
+
+const pageData = book.pages[i - 1]
 
 console.log("Page data:", pageData)
 if (pageData) {
@@ -183,7 +184,7 @@ if (pageData) {
     return () => {
       cancelled = true
     }
-  }, [bookId])
+  }, [bookId, book])
 
 
   const totalPages = book?.pages.length ?? 0;
@@ -220,7 +221,12 @@ if (pageData) {
             continue
           }
 
-          const pageData = getBookPage(bookId, i)
+if (!book) {
+  loadingRef.current.delete(i)
+  continue
+}
+
+const pageData = book.pages[i - 1]
           if (!pageData) {
             loadingRef.current.delete(i)
             continue
@@ -249,7 +255,7 @@ if (pageData) {
     return () => {
       cancelled = true
     }
-  }, [pageNumber])
+  }, [pageNumber,book])
 
     useEffect(() => {
   document.documentElement.style.setProperty(
