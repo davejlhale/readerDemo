@@ -1,31 +1,46 @@
-/* PAGE CONTAINER */
+/* =========================================================
+   PAGE ROOT
+========================================================= */
+
 .page {
   height: 100svh;
   width: 100%;
+  min-height: 0;
+
   display: flex;
   flex-direction: column;
-  min-height: 0;padding: 1rem;
+
+  padding: 1rem;
   background-color: #333;
 }
 
-/* BOOK CONTENT TAKES REMAINING SPACE */
+/* =========================================================
+   BOOK CONTENT WRAPPER
+========================================================= */
+
 .book-content {
   flex: 1 1 auto;
+  min-height: 0;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  
-  min-height: 0;          /* ✅ add (THIS is the big one) */
-  overflow: hidden; 
-  
+
+  overflow: hidden;
+
+  opacity: 1;
+  transition: opacity 0.2s ease-in;
 }
 
-/* BOOK FRAME */
+/* =========================================================
+   BOOK FRAME
+========================================================= */
+
 .book-frame {
-      flex: 1 1 auto;         /* ✅ add */
-  min-height: 0;          /* ✅ add */
-  max-height: 100%; 
+  flex: 1 1 auto;
+  min-height: 0;
   height: 100%;
+  max-height: 100%;
   width: 100%;
 
   display: flex;
@@ -35,61 +50,84 @@
   overflow: hidden;
 }
 
-/* INNER PAGE LAYOUT */
+/* =========================================================
+   INNER PAGE LAYOUT
+========================================================= */
+
 .page-inner {
   flex: 1 1 auto;
+  min-height: 0;
+
   display: flex;
   flex-direction: column;
-  
-  min-height: 0;      /* ✅ allows shrink */
-  
 }
 
-/* IMAGE TAKES REMAINING SPACE */
+/* =========================================================
+   IMAGE AREA
+========================================================= */
+
 .image-box {
   flex: 1 1 auto;
-  overflow: hidden;
- 
-    min-height: 0;      /* ✅ REQUIRED */
+  min-height: 0;
 
+  overflow: hidden;
 }
 
-/* IMAGE STRETCHES TO FILL */
 .image-box img {
   width: 100%;
   height: 100%;
-  object-fit:fill;
+
   display: block;
+  object-fit: fill;
 }
 
-/* TEXT GROWS NATURALLY */
+/* =========================================================
+   TEXT AREA
+========================================================= */
+
 .text-box {
   display: flex;
+  flex-direction: column;
   flex-grow: 1;
-  justify-content: center;   /* centres the inner box when it doesn't need full width */
-  align-items: center;        /* vertical centring if needed */
-flex-direction: column;
+  background: white;
+  
 }
 
 .text-inner {
-   width: auto;              /* allow wrapping */
-  max-width: 100%;          /* never exceed container */
-  text-align: left;        /* keep right alignment */
+  width: auto;
+  max-width: 100%;
 
-  overflow-wrap: normal;    /* no mid-word breaks */
-  word-break: normal;       /* no mid-word breaks */
+  padding: 0 1em;
 
+  overflow-wrap: normal;
+  word-break: normal;
+
+  line-height: var(--reader-line-spacing);
 }
+
 .text-inner p {
-font-size: var(--reader-font-size);
-word-spacing: var(--reader-word-spacing);
-padding-top: 0;
-padding-left: 1rem;
-padding-right: 1rem;
-
+  font-size: var(--reader-font-size);
+  word-spacing: var(--reader-word-spacing);
 }
 
-/* CONTROLS CONTAINER */
+/* =========================================================
+   TEXT CONTROLS
+========================================================= */
+
+.font-controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+
+  width: 100%;
+  gap: 1rem;
+  padding-right: 1rem;
+}
+
+/* =========================================================
+   NAVIGATION CONTROLS
+========================================================= */
+
 .controls {
   width: 100%;
   flex-shrink: 0;
@@ -97,22 +135,22 @@ padding-right: 1rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
-
   align-items: center;
 
   padding: 0.5rem 0;
 }
 
-/* BUTTONS */
+/* Buttons */
+
 .controls button {
   width: 100%;
   max-width: 300px;
 
-  font-size: 1.2rem;
   padding: 0.5rem 1.2rem;
+  font-size: 1.2rem;
 
-  border-radius: 999px;
   border: none;
+  border-radius: 999px;
 
   background: #005fcc;
   color: white;
@@ -120,17 +158,18 @@ padding-right: 1rem;
   cursor: pointer;
 }
 
-/* LEFT BUTTON (Previous) — hug right edge */
+/* Button positioning */
+
 .controls button:first-child {
   justify-self: end;
 }
 
-/* RIGHT BUTTON (Next) — hug left edge */
 .controls button:last-child {
   justify-self: start;
 }
 
-/* SINGLE ACTION (e.g. “Let’s read”) */
+/* Single-action layout */
+
 .controls.single-action {
   grid-template-columns: 1fr;
 }
@@ -139,25 +178,34 @@ padding-right: 1rem;
   justify-self: center;
 }
 
-/* DISABLED */
+/* Disabled state */
+
 .controls button:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
 
-/* FOCUS (WCAG) */
+/* Focus (WCAG) */
+
 .controls button:focus-visible {
   outline: 4px solid #ffbf47;
   outline-offset: 2px;
 }
+
+/* =========================================================
+   LOADING OVERLAY
+========================================================= */
+
 .page-loading {
   position: fixed;
   inset: 0;
-  background: #ffffff;
+  z-index: 1000;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+
+  background: #ffffff;
 }
 
 .page-loading img {
@@ -165,25 +213,3 @@ padding-right: 1rem;
   max-width: 60vw;
   height: auto;
 }
-.text-box,
-.text-box p {
-  font-size: var(--reader-font-size);
-  word-spacing: var(--reader-word-spacing);
-  background: white;;
-}
-
-.book-content {
-  opacity: 1;
-  transition: opacity 0.2s ease-in;
-}
-
-.font-controls {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;   /* ⬅️ aligns the buttons to the right */
-  width: 100%;                 /* ⬅️ ensures it has space to push into */
-  gap: 1rem;
-  padding-right: 1rem;
-}
-
-

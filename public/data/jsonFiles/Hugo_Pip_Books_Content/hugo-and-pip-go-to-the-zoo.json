@@ -2,8 +2,8 @@
   "id": "pip-hugo-go-to-the-zoo",
   "seriesId": "pip-hugo",
   "title": "Pip and Hugo Go to the Zoo",
-  "coverImage": "/images/bookSeries/HugoAndPip/GoToTheZoo/cover.png",
-  "coverImageLandscape":  "/images/bookSeries/HugoAndPip/GoToTheZoo/coverLandscape.png",
+  "coverImage": "/images/bookSeries/HugoAndPip/GoToTheZoo/coverImage.png",
+  "coverImageLandscape":  "/images/bookSeries/HugoAndPip/GoToTheZoo/coverImageLandscape.png",
   "pages": [
     {
       "pageNumber": 1,

@@ -11,9 +11,9 @@ body {
   color: #111;
 }
 :root {
-  --reader-font-size: 1rem;
-  --reader-word-spacing: 0.1em;
-
+  --reader-font-size: 1.4em;
+  --reader-word-spacing:  0.1em;
+  --reader-line-spacing: 1.4;
 }
 
 

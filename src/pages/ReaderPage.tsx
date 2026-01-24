@@ -1,13 +1,9 @@
 import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect, useRef, useState } from 'react'
-
-
-import { FontSizeControls } from '../components/FontSizeControls'
-import { WordSpacingControls } from '../components/WordSpacingControls'
-
 import { useSession } from '../session/SessionContext'
 import { getBookContent } from '../data/getBookContents'
 import { Book } from '../data/types'
+import { TextPanelControls } from '../components/TextPanelControls'
 
 /* ---------------------------------------------
    Types
@@ -77,8 +73,6 @@ export function ReaderPage() {
  /* -----------------------------------------
      State
   ----------------------------------------- */
-  const [fontSize, setFontSize] = useState(1.4)
-  const [wordSpacing, setWordSpacing] = useState(0.1)
 
   const [imageSource, setImageSource] =
     useState<ImageSource | null>(null)
@@ -123,20 +117,7 @@ useEffect(() => {
 
   
 
-  /* -----------------------------------------
-     DEV: PURGE BLOBS ON ENTRY (optional)
-  ----------------------------------------- */
-  // useEffect(() => {
-  //   Object.values(session.state.books).forEach(book =>
-  //     Object.values(book).forEach(url => {
-  //       URL.revokeObjectURL(url)
-  //     })
-  //   )
-  //   session.state.books = {}
-  //   session.notify()
-  //   console.warn('[ReaderPage] Blob cache purged on entry')
-  // }, [])
-
+ 
   /* -----------------------------------------
      Entry preload (pages 1–2)
   ----------------------------------------- */
@@ -257,18 +238,7 @@ const pageData = book.pages[i - 1]
     }
   }, [pageNumber,book])
 
-    useEffect(() => {
-  document.documentElement.style.setProperty(
-    '--reader-font-size',
-    `${fontSize}rem`
-  )
-}, [fontSize])
-useEffect(() => {
-  document.documentElement.style.setProperty(
-    '--reader-word-spacing',
-    `${wordSpacing}em`
-  )
-}, [wordSpacing])
+    
 
   /* -----------------------------------------
      Resolve CURRENT page image
@@ -420,21 +390,15 @@ console.log("LOAD EFFECT CHECK inside", {
     <main className="page">
       <div className="book-content">
         <div className="book-frame">
+          
           <div className="page-inner">
             <div className="image-box">
               <img src={imageSrc} alt={`Page ${pageNumber}`} />
             </div>
 
             <div className="text-box">
-              <div className="font-controls">
-              <FontSizeControls
-                fontSize={fontSize}
-                setFontSize={setFontSize}
-              />
-              <WordSpacingControls
-                wordSpacing={wordSpacing}
-                setWordSpacing={setWordSpacing}
-              /></div>
+              
+              <TextPanelControls />
               <div className="text-inner">
                 {pageData.lines.map((line, i) => (
                   <p key={i}>{line}</p>

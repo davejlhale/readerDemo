@@ -3,7 +3,7 @@
     "id": "hugo-and-pip-go-to-the-zoo",
     "seriesId": "Hugo and Pip",
     "title": "Hugo and Pip Go to the Zoo",
-    "coverImage": "/images/bookSeries/HugoAndPip/GoToTheZoo/cover.png",
+    "coverImage": "/images/bookSeries/HugoAndPip/GoToTheZoo/coverImage.png",
     "coverImageLandscape": "/images/bookSeries/HugoAndPip/GoToTheZoo/coverImageLandscape.png",
     "contentIndex": "/data/jsonFiles/Hugo_Pip_Books_Content/hugo-and-pip-go-to-the-zoo.json"
   },
